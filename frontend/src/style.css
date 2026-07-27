@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-0: #050608;
+  --bg-1: #0a0c12;
+  --bg-2: #11141c;
+  --text-0: #ffffff;
+  --text-1: #c7cedb;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text-0);
+  font-family: 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 700px at 80% -10%, #0c1426 0%, transparent 60%),
+    radial-gradient(900px 600px at 0% 100%, #0a1420 0%, transparent 55%),
+    linear-gradient(160deg, #050608, #0a0c12 55%, #11141c);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/5 border border-white/10 backdrop-blur-xl;
+  }
+  .glass-soft {
+    @apply bg-white/[0.04] border border-white/10;
+  }
+}
+
+/* 背景光晕 */
+.bg-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.32;
+  z-index: 0;
+  pointer-events: none;
+  animation: float 14s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -40px) scale(1.08); }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 999px; }

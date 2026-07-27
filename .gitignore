@@ -1,0 +1,34 @@
+# ---- 前端依赖 ----
+node_modules/
+frontend/node_modules/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- 数据库（后端启动会自动 seed 重建）----
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- 环境变量 / 密钥 ----
+.env
+.env.*
+!.env.example
+
+# ---- 构建产物 ----
+frontend/dist/
+frontend/dist-ssr/
+*.tsbuildinfo
+
+# ---- 系统 / 编辑器 ----
+.DS_Store
+*.log
+.idea/
+.vscode/
+.cache/
+.coverage/
+.pytest_cache/

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JackeyFootball · 球员数据对比</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- 背景光晕 -->
+  <div class="bg-glow glow-a"></div>
+  <div class="bg-glow glow-b"></div>
+  <div class="bg-glow glow-c"></div>
+
+  <!-- 顶部导航 -->
+  <header class="topbar glass">
+    <div class="brand">
+      <span class="brand-mark">⚽</span>
+      <span class="brand-name">JackeyFootball</span>
+    </div>
+    <nav class="topnav">
+      <a class="nav-link active" data-i18n="nav.power" href="/players">综合实力</a>
+      <a class="nav-link" data-i18n="nav.data" href="#">各数据</a>
+      <a class="nav-link" data-i18n="nav.compare" href="#">球员对比</a>
+    </nav>
+    <button id="langToggle" class="lang-btn" title="切换语言">
+      <span class="lang-zh">中</span><span class="lang-sep">/</span><span class="lang-en">EN</span>
+    </button>
+  </header>
+
+  <!-- 主页大标题 -->
+  <section class="hero">
+    <h1 class="hero-title" data-i18n="hero.title">为你展现最完整的球员数据</h1>
+    <p class="hero-sub" data-i18n="hero.sub">按位置分组 · 综合实力评分 · 同位置内比统治力与巅峰期</p>
+  </section>
+
+  <!-- 位置筛选 -->
+  <div class="filters" id="filters">
+    <button class="chip active" data-pos="all" data-i18n="pos.all">全部</button>
+    <button class="chip" data-pos="forward" data-i18n="pos.forward">前锋</button>
+    <button class="chip" data-pos="midfielder" data-i18n="pos.midfielder">中场</button>
+    <button class="chip" data-pos="defender" data-i18n="pos.defender">后卫</button>
+    <button class="chip" data-pos="goalkeeper" data-i18n="pos.goalkeeper">门将</button>
+  </div>
+
+  <!-- 球员列表 -->
+  <main class="list-wrap" id="listWrap">
+    <div class="loading" data-i18n="loading">数据加载中…</div>
+  </main>
+
+  <!-- 评分说明 -->
+  <section class="scoring-info" id="scoringInfo" style="max-width:900px;margin:0 auto 20px;padding:20px 24px;background:var(--bg1);border-radius:16px;border:1px solid var(--line);">
+    <div class="scoring-title" style="font-size:15px;font-weight:700;margin-bottom:12px;"><span style="color:#FFC53D">?</span> <span data-i18n="scoring.title">评分怎么算的？</span></div>
+    <div style="color:var(--text-2);font-size:13px;margin-bottom:12px;" data-i18n="scoring.formula">综合实力 = 同位置归一化后加权：</div>
+    <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;justify-content:space-between;"><span data-i18n="scoring.stats">个人数据能力</span><span style="font-weight:700">50%</span></div>
+      <div style="display:flex;justify-content:space-between;"><span data-i18n="scoring.awards">个人荣誉</span><span style="font-weight:700">25%</span></div>
+      <div style="display:flex;justify-content:space-between;"><span data-i18n="scoring.honors">团队荣誉</span><span style="font-weight:700">20%</span></div>
+      <div style="display:flex;justify-content:space-between;"><span data-i18n="scoring.market">身价</span><span style="font-weight:700">3%</span></div>
+      <div style="display:flex;justify-content:space-between;"><span data-i18n="scoring.leader">领导力</span><span style="font-weight:700">2%</span></div>
+    </div>
+    <div style="color:var(--text-2);font-size:12px;margin-top:10px;opacity:.75" data-i18n="scoring.tip">所有分值按同位置统一归一化到 0-100 区间。</div>
+  </section>
+
+  <footer class="footer">
+    <span data-i18n="footer">数据来源参考：StatsBomb / FBref / TheSportsDB 等公开数据，仅供学习研究，非商业用途。</span>
+  </footer>
+
+  <!-- 详情抽屉 -->
+  <div class="drawer-mask" id="drawerMask"></div>
+  <aside class="drawer glass" id="drawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div id="drawerBody" class="drawer-body"></div>
+  </aside>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
