@@ -1,0 +1,23 @@
+# 版本控制
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.db
+
+# Node / 前端
+node_modules/
+frontend/dist/
+
+# 环境 / 系统
+.env
+.DS_Store
+*.log
+
+# 文档（可选，减小镜像上下文）
+README.md

@@ -1,21 +1,13 @@
+# JackeyFootball 一键部署（单容器：前端 + 后端 API + SQLite 自动种子）
+# 默认使用容器内 SQLite，无需额外数据库服务。
+# 如需改用 Postgres，请设置环境变量 DATABASE_URL 并自行添加 db 服务。
 services:
-  db:
-    image: postgres:16-alpine
-    container_name: jackeyfootball-db
+  app:
+    build: .
+    container_name: jackeyfootball
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: jackey
-      POSTGRES_PASSWORD: jackey
-      POSTGRES_DB: jackeyfootball
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U jackey"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  pgdata:
+      - "8080:8000"
+    environment:
+      # 留空则使用默认 SQLite（./jackeyfootball.db）；填 Postgres 连接串则切换
+      DATABASE_URL: ""

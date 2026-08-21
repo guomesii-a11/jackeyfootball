@@ -251,14 +251,25 @@ app.include_router(router)
 # ---------------------------------------------------------------------------
 # 静态前端 & 页面路由
 # ---------------------------------------------------------------------------
-# 托管 CSS / JS 等静态资源
+# 托管 CSS / JS 等静态资源（前端打包产物 index.html + /assets 与头像 /static）
 if os.path.isdir(STATIC_DIR):
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    assets_dir = os.path.join(STATIC_DIR, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
 
 def _serve_page():
-    """返回球员列表前端页面（单页应用，客户端按路径渲染列表/详情）。"""
+    """返回前端单页应用入口（客户端按路径渲染列表/详情/对比等）。"""
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
+@app.get("/")
+def root():
+    """根路径：若已构建前端则返回页面，否则返回 API 提示。"""
+    if os.path.isfile(os.path.join(STATIC_DIR, "index.html")):
+        return _serve_page()
+    return {"message": "JackeyFootball API is running", "docs": "/docs", "players_page": "/players"}
 
 
 @app.get("/players")
@@ -273,9 +284,15 @@ def player_detail_page(player_id: int):
     return _serve_page()
 
 
-@app.get("/")
-def root():
-    return {"message": "JackeyFootball API is running", "docs": "/docs", "players_page": "/players"}
+@app.get("/{full_path:path}")
+def spa_fallback(full_path: str):
+    """SPA 兜底：未知前端路由回退 index.html（不干扰 /api、/docs、/static、/assets）。"""
+    index = os.path.join(STATIC_DIR, "index.html")
+    if full_path.startswith(("api/", "docs", "openapi.json", "redoc", "static/", "assets/")):
+        raise HTTPException(status_code=404, detail="Not Found")
+    if os.path.isfile(index):
+        return FileResponse(index)
+    raise HTTPException(status_code=404, detail="Frontend not built")
 
 
 if __name__ == "__main__":
